@@ -12,4 +12,9 @@ class WorkExampleAdmin(admin.ModelAdmin):
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ('phone', 'address', 'working_hours')
+    list_display = ('address', 'phone', 'zoom')
+    fieldsets = (
+        ("Контакты", {"fields": ("address", "phone", "email", "working_hours")}),
+        ("Карта (координаты)", {"fields": ("map_latitude", "map_longitude", "zoom")}),
+        ("Карта (готовый виджет)", {"fields": ("map_iframe_url",)}),
+    )
