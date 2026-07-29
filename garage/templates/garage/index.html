@@ -13,7 +13,7 @@
             --text: #333333;
             --card-bg: #ffffff;
             --border: #e0e0e0;
-            --red-overlay: rgba(211, 47, 47, 0.06); /* лёгкий красный полупрозрачный слой */
+            --red-overlay: rgba(211, 47, 47, 0.06);
         }
 
         body {
@@ -83,7 +83,6 @@
             .hero { grid-template-columns: 1fr; }
         }
 
-        /* Карточки с лёгким красным налётом */
         .contacts-block, .card, .booking-form {
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
             border-radius: 12px;
@@ -92,20 +91,19 @@
             position: relative;
         }
 
-        /* Красный полупрозрачный оверлей поверх карточки */
         .contacts-block::before, .card::before, .booking-form::before {
             content: "";
             position: absolute;
             inset: 0;
             background: var(--red-overlay);
-            pointer-events: none; /* чтобы клики проходили сквозь оверлей */
+            pointer-events: none;
             z-index: 1;
             border-radius: 12px;
         }
 
         .contacts-block {
             padding: 28px;
-            z-index: 2; /* контент поверх оверлея */
+            z-index: 2;
         }
         .contact-item {
             margin-bottom: 14px;
@@ -289,11 +287,29 @@
     <section id="booking">
         <div class="container booking-form">
             <h2 style="margin:0 0 24px; text-align:center; color:var(--primary);">Записаться на шиномонтаж</h2>
+
+            <!-- Блок с ошибками формы -->
+            {% if form.errors %}
+              <div style="padding:16px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:16px;">
+                Пожалуйста, исправьте ошибки в форме:
+                {{ form.errors }}
+              </div>
+            {% endif %}
+
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить заявку</button>
             </form>
+
+            <!-- Блок с системными сообщениями (успех/ошибки) -->
+            {% if messages %}
+              {% for message in messages %}
+                <div style="padding:16px; background:#d4edda; color:#155724; border-radius:8px; margin-top:16px; text-align:center;">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
         </div>
     </section>
 

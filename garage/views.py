@@ -1,18 +1,21 @@
-from django.shortcuts import render
-from .models import Service, WorkExample, ContactInfo
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Service, WorkExample, ContactInfo, Booking
 from .forms import BookingForm
 
 def index(request):
     services = Service.objects.all()
     examples = WorkExample.objects.all()[:6]
     contact = ContactInfo.objects.first()
-    form = BookingForm()
 
     if request.method == "POST":
         form = BookingForm(request.POST)
         if form.is_valid():
-            # Здесь можно сохранить заявку или отправить уведомление
-            pass
+            form.save()  # <-- это вызовет твой метод save() в форме, где собирается date_time
+            messages.success(request, "Ваша заявка успешно отправлена! Мы перезвоним вам в ближайшее время.")
+            return redirect('index')
+    else:
+        form = BookingForm()
 
     return render(request, "garage/index.html", {
         "services": services,
