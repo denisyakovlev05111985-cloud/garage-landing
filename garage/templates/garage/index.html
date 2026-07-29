@@ -3,77 +3,324 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Шиномонтаж — быстро и надёжно</title>
+    <title>Шиномонтаж «Эконом»</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        :root {
+            --primary: #d32f2f;
+            --primary-hover: #b71c1c;
+            --text: #333333;
+            --card-bg: #ffffff;
+            --border: #e0e0e0;
+            --red-overlay: rgba(211, 47, 47, 0.06); /* лёгкий красный полупрозрачный слой */
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            background: linear-gradient(180deg, #f5f6f8 0%, #e9ecf1 40%, #dbe0e8 100%);
+        }
+
+        header {
+            padding-top: 24px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border-bottom: 3px solid var(--primary);
+            background: #fff;
+            z-index: 10;
+            position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .brand {
+            font-weight: bold;
+            font-size: 1.8rem;
+            color: var(--primary);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 16px;
+            margin-left: 32px;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 14px 24px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .btn-nav:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            padding: 50px 0;
+        }
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+        }
+
+        /* Карточки с лёгким красным налётом */
+        .contacts-block, .card, .booking-form {
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(221, 221, 221, 0.4);
+            background: var(--card-bg);
+            position: relative;
+        }
+
+        /* Красный полупрозрачный оверлей поверх карточки */
+        .contacts-block::before, .card::before, .booking-form::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: var(--red-overlay);
+            pointer-events: none; /* чтобы клики проходили сквозь оверлей */
+            z-index: 1;
+            border-radius: 12px;
+        }
+
+        .contacts-block {
+            padding: 28px;
+            z-index: 2; /* контент поверх оверлея */
+        }
+        .contact-item {
+            margin-bottom: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            line-height: 1.4;
+            position: relative;
+            z-index: 2;
+        }
+
+        .map-block {
+            grid-column: 2;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid var(--border);
+        }
+        .map-block iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: 0; 
+            display: block;
+        }
+
+        section:not(.hero-section) { display: none; }
+        section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        section { padding: 60px 0; }
+        h2 {
+            margin: 0 0 35px;
+            text-align: center;
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .services-grid, .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+        }
+        .card {
+            padding: 24px;
+            z-index: 2;
+        }
+        .price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .booking-form {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 36px;
+            z-index: 2;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: #888;
+            border-top: 1px solid var(--border);
+            background: #fff;
+        }
+
+        html { scroll-behavior: smooth; }
+    </style>
 </head>
 <body>
 
-<section class="contacts">
-    <h2>Контакты</h2>
-    {% if contact %}
-        <p>📞 {{ contact.phone }}</p>
-        {% if contact.email %}<p>✉️ {{ contact.email }}</p>{% endif %}
-        <p>📍 {{ contact.address }}</p>
-        <p>🕒 {{ contact.working_hours }}</p>
-    {% else %}
-        <p>Заполните контакты в админке Django.</p>
-    {% endif %}
-</section>
+    <header>
+        <div class="container" style="display:flex; align-items:center;">
+            <a href="#" class="brand">Шиномонтаж «Эконом»</a>
+            <nav class="top-nav">
+                <a href="#services" class="btn-nav js-toggle">Услуги</a>
+                <a href="#works" class="btn-nav js-toggle">Примеры работ</a>
+                <a href="#booking" class="btn-nav js-toggle">Записаться</a>
+            </nav>
+        </div>
+    </header>
 
-<section class="location">
-    <h2>Где мы находимся</h2>
-    <!-- Вставь сюда реальную ссылку на Яндекс Карты -->
-    <iframe
-        src="https://yandex.ru/map-widget/v1/?ll=37.617635%2C55.755814&z=12"
-        width="100%" height="400" style="border:0;" allowfullscreen>
-    </iframe>
-</section>
+    <section class="hero-section">
+        <div class="container hero">
+            <div class="hero-info">
+                <h1 style="color:var(--primary)">Профессиональный шиномонтаж</h1>
+                <p>Быстро, надёжно, с гарантией. Работаем без выходных.</p>
 
-<section class="services">
-    <h2>Наши услуги и цены</h2>
-    <div class="cards">
-        {% for service in services %}
-            <div class="card">
-                <h3>{{ service.name }}</h3>
-                <p class="price">{{ service.price }} ₽</p>
-                {% if service.description %}
-                    <p>{{ service.description }}</p>
+                <div class="contacts-block">
+                    {% if contact %}
+                        <div class="contact-item">📍 {{ contact.address }}</div>
+                        <div class="contact-item">📞 {{ contact.phone }}</div>
+                        {% if contact.email %}
+                            <div class="contact-item">✉️ {{ contact.email }}</div>
+                        {% endif %}
+                        <div class="contact-item">⏰ {{ contact.working_hours }}</div>
+                    {% else %}
+                        <p style="color:#888">Заполните контакты в админке.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="map-block">
+                {% if contact and contact.map_iframe_url %}
+                    {{ contact.map_iframe_url|safe }}
+                {% else %}
+                    <iframe
+                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A221a76d2fd650a12d87390ffd2acf934652d7d8d2c487967f8dd1001a3fe1dff&amp;source=constructor"
+                        allowfullscreen=""
+                        loading="lazy"
+                        style="border:none;">
+                    </iframe>
                 {% endif %}
             </div>
-        {% empty %}
-            <p>Добавьте услуги в админке.</p>
-        {% endfor %}
-    </div>
-</section>
+        </div>
+    </section>
 
-<section class="examples">
-    <h2>Примеры работ</h2>
-    <div class="gallery">
-        {% for example in examples %}
-            <div class="photo">
-                <img src="{{ example.image_url }}" alt="{{ example.caption }}">
-                <div class="caption">{{ example.caption }}</div>
+    <section id="services">
+        <div class="container">
+            <h2>Наши услуги и цены</h2>
+            <div class="services-grid">
+                {% for service in services %}
+                    <div class="card">
+                        <h3>{{ service.name }}</h3>
+                        <p class="price">{{ service.price }} ₽</p>
+                        {% if service.description %}
+                            <p>{{ service.description }}</p>
+                        {% endif %}
+                    </div>
+                {% empty %}
+                    <p>Добавьте услуги в админке.</p>
+                {% endfor %}
             </div>
-        {% empty %}
-            {% for i in "123456" %}
-                <div class="photo">
-                    <img src="https://picsum.photos/400/300?random={{ i }}" alt="Пример работы">
-                    <div class="caption">Пример работы</div>
-                </div>
-            {% endfor %}
-        {% endfor %}
-    </div>
-</section>
+        </div>
+    </section>
 
-<section class="booking">
-    <h2>Записаться на шиномонтаж</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn">Записаться</button>
-    </form>
-</section>
+    <section id="works">
+        <div class="container">
+            <h2>Примеры работ</h2>
+            <div class="works-grid">
+                {% for example in examples %}
+                    <div class="card" style="text-align:center;">
+                        <img src="{{ example.image_url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
+                        <p>{{ example.caption }}</p>
+                    </div>
+                {% empty %}
+                    {% for i in "123456" %}
+                        <div class="card" style="text-align:center;">
+                            <img src="https://picsum.photos/400/300?random={{ i }}" alt="Пример работы" style="width:100%; border-radius:8px; margin-bottom:14px;">
+                            <p>Пример работы</p>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 
+    <section id="booking">
+        <div class="container booking-form">
+            <h2 style="margin:0 0 24px; text-align:center; color:var(--primary);">Записаться на шиномонтаж</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить заявку</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Шиномонтаж «Эконом». Все права защищены.</p>
+            {% if contact and contact.working_hours %}
+                <p style="font-size:0.9rem; margin-top:8px;">Работаем ежедневно: {{ contact.working_hours }}</p>
+            {% endif %}
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.js-toggle').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = btn.getAttribute('href');
+                document.querySelectorAll('section:not(.hero-section)').forEach(sec => {
+                    sec.classList.remove('active');
+                });
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
