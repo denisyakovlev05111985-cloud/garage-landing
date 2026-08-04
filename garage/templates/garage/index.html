@@ -33,6 +33,8 @@
             z-index: 10;
             position: relative;
             box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+            position: sticky;
+            top: 0;
         }
 
         .container {
@@ -51,25 +53,51 @@
 
         .top-nav {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             margin-left: 32px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .btn-nav {
             background: transparent;
             border: 1px solid var(--primary);
             color: var(--primary);
-            padding: 14px 24px;
+            padding: 12px 20px;
             text-decoration: none;
             border-radius: 8px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             transition: all 0.2s;
             cursor: pointer;
+            white-space: nowrap;
         }
-        .btn-nav:hover {
+        
+        .btn-nav:hover, .btn-nav.active {
             background: var(--primary);
             color: #fff;
+        }
+
+        /* Кнопка расписания */
+        .btn-schedule {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 18px 32px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 6px 18px rgba(211, 47, 47, 0.25);
+            transition: transform 0.1s, box-shadow 0.2s;
+        }
+        .btn-schedule:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(211, 47, 47, 0.3);
+        }
+        .btn-schedule:active {
+            transform: translateY(0);
         }
 
         .hero {
@@ -83,15 +111,16 @@
             .hero { grid-template-columns: 1fr; }
         }
 
-        .contacts-block, .card, .booking-form {
+        .contacts-block, .card, .booking-form, .review-card {
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
             border-radius: 12px;
             border: 1px solid rgba(221, 221, 221, 0.4);
             background: var(--card-bg);
             position: relative;
+            overflow: hidden;
         }
 
-        .contacts-block::before, .card::before, .booking-form::before {
+        .contacts-block::before, .card::before, .booking-form::before, .review-card::before {
             content: "";
             position: absolute;
             inset: 0;
@@ -101,10 +130,7 @@
             border-radius: 12px;
         }
 
-        .contacts-block {
-            padding: 28px;
-            z-index: 2;
-        }
+        .contacts-block { padding: 28px; z-index: 2; }
         .contact-item {
             margin-bottom: 14px;
             display: flex;
@@ -125,22 +151,7 @@
             position: relative;
             border: 1px solid var(--border);
         }
-        .map-block iframe { 
-            width: 100%; 
-            height: 100%; 
-            border: 0; 
-            display: block;
-        }
-
-        section:not(.hero-section) { display: none; }
-        section.active {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .map-block iframe { width: 100%; height: 100%; border: 0; display: block; }
 
         section { padding: 60px 0; }
         h2 {
@@ -155,22 +166,16 @@
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 22px;
         }
-        .card {
-            padding: 24px;
-            z-index: 2;
-        }
-        .price {
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
+        .card { padding: 24px; z-index: 2; }
+        .price { color: var(--primary); font-weight: bold; font-size: 1.1rem; }
 
-        .booking-form {
+        .booking-form, .reviews-section .review-form-block {
             max-width: 520px;
             margin: 0 auto;
             padding: 36px;
             z-index: 2;
         }
+        
         input, textarea, select {
             width: 100%;
             padding: 12px;
@@ -194,28 +199,100 @@
         }
 
         html { scroll-behavior: smooth; }
+
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 9999; /* Очень высокий z-index */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-window {
+            background: #fff;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 640px;
+            box-shadow: 0 12px 48px rgba(0,0,0,0.18);
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        .close-modal:hover { color: #333; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: #f8f9fa; color: var(--primary); }
+        .status-busy { color: #d32f2f; font-weight: bold; }
+        .status-free { color: #2e7d32; font-weight: bold; }
+
+        .reviews-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .review-card {
+            padding: 20px;
+            text-align: center;
+        }
+        .review-author {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .review-text {
+            color: #555;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
     <header>
         <div class="container" style="display:flex; align-items:center;">
-            <a href="#" class="brand">Шиномонтаж «Эконом»</a>
+            <a href="#services" class="brand">Шиномонтаж «Эконом»</a>
             <nav class="top-nav">
-                <a href="#services" class="btn-nav js-toggle">Услуги</a>
-                <a href="#works" class="btn-nav js-toggle">Примеры работ</a>
-                <a href="#booking" class="btn-nav js-toggle">Записаться</a>
+                <a href="#services" class="btn-nav">Услуги</a>
+                <a href="#works" class="btn-nav">Примеры работ</a>
+                <a href="#booking" class="btn-nav">Записаться</a>
+                <a href="#reviews" class="btn-nav" style="background:var(--primary); color:#fff;">🗣 Отзывы</a>
             </nav>
         </div>
     </header>
 
+    <!-- ГЛАВНЫЙ ЭКРАН -->
     <section class="hero-section">
         <div class="container hero">
             <div class="hero-info">
                 <h1 style="color:var(--primary)">Профессиональный шиномонтаж</h1>
                 <p>Быстро, надёжно, с гарантией. Работаем без выходных.</p>
 
-                <div class="contacts-block">
+                <!-- Кнопка расписания -->
+                <button type="button" id="open-schedule-btn" class="btn-schedule">
+                    📅 Посмотреть расписание: какие слоты заняты
+                </button>
+
+                <div class="contacts-block" style="margin-top:24px;">
                     {% if contact %}
                         <div class="contact-item">📍 {{ contact.address }}</div>
                         <div class="contact-item">📞 {{ contact.phone }}</div>
@@ -233,17 +310,13 @@
                 {% if contact and contact.map_iframe_url %}
                     {{ contact.map_iframe_url|safe }}
                 {% else %}
-                    <iframe
-                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A221a76d2fd650a12d87390ffd2acf934652d7d8d2c487967f8dd1001a3fe1dff&amp;source=constructor"
-                        allowfullscreen=""
-                        loading="lazy"
-                        style="border:none;">
-                    </iframe>
+                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A221a76d2fd650a12d87390ffd2acf934652d7d8d2c487967f8dd1001a3fe1dff&amp;source=constructor" allowfullscreen="" loading="lazy" style="border:none;"></iframe>
                 {% endif %}
             </div>
         </div>
     </section>
 
+    <!-- УСЛУГИ -->
     <section id="services">
         <div class="container">
             <h2>Наши услуги и цены</h2>
@@ -263,13 +336,21 @@
         </div>
     </section>
 
+    <!-- ПРИМЕРЫ РАБОТ -->
     <section id="works">
         <div class="container">
             <h2>Примеры работ</h2>
             <div class="works-grid">
                 {% for example in examples %}
                     <div class="card" style="text-align:center;">
-                        <img src="{{ example.image_url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
+                        {% if example.image %}
+                            <img src="{{ example.image.url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
+                        {% elif example.image_url %}
+                            <img src="{{ example.image_url }}" alt="{{ example.caption }}" style
+                            <img src="{{ example.image_url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
+                        {% else %}
+                            <div style="height:200px; background:#eee; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#888;">Нет фото</div>
+                        {% endif %}
                         <p>{{ example.caption }}</p>
                     </div>
                 {% empty %}
@@ -284,11 +365,11 @@
         </div>
     </section>
 
+    <!-- ФОРМА ЗАПИСИ -->
     <section id="booking">
         <div class="container booking-form">
             <h2 style="margin:0 0 24px; text-align:center; color:var(--primary);">Записаться на шиномонтаж</h2>
 
-            <!-- Блок с ошибками формы -->
             {% if form.errors %}
               <div style="padding:16px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:16px;">
                 Пожалуйста, исправьте ошибки в форме:
@@ -298,11 +379,32 @@
 
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <input type="hidden" name="booking_submit" value="1">
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Ваше имя</label>
+                    {{ form.name }}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Телефон</label>
+                    {{ form.phone }}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Услуга (впишите название)</label>
+                    {{ form.service }}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Дата записи</label>
+                    {{ form.date }}
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Время записи</label>
+                    {{ form.time_slot }}
+                </div>
+
                 <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить заявку</button>
             </form>
 
-            <!-- Блок с системными сообщениями (успех/ошибки) -->
             {% if messages %}
               {% for message in messages %}
                 <div style="padding:16px; background:#d4edda; color:#155724; border-radius:8px; margin-top:16px; text-align:center;">
@@ -310,6 +412,65 @@
                 </div>
               {% endfor %}
             {% endif %}
+        </div>
+    </section>
+
+    <!-- ОТЗЫВЫ -->
+    <section id="reviews">
+        <div class="container">
+            <h2>Отзывы наших клиентов</h2>
+
+            <div class="review-form-block">
+                <h3 style="margin-top:0; color:var(--primary);">Оставить отзыв</h3>
+                {% if review_form.errors %}
+                    <div style="padding:12px; background:#f8d7da; color:#721c24; border-radius:6px; margin-bottom:16px;">
+                        Исправьте ошибки в форме:
+                        {{ review_form.errors }}
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="review_submit" value="1">
+                    
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Ваше имя</label>
+                        {{ review_form.name }}
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Отзыв</label>
+                        {{ review_form.text }}
+                    </div>
+
+                    <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить отзыв</button>
+                </form>
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div style="padding:12px; background:#d4edda; color:#155724; border-radius:6px; margin-top:16px; text-align:center;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="reviews-list">
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review-card">
+                            <span class="review-author">{{ review.name }}</span>
+                            <p class="review-text">{{ review.text }}</p>
+                            <small style="color:#999; font-size:0.85rem;">
+                                {{ review.created_at|date:"d.m.Y H:i" }}
+                            </small>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align:center; padding:40px; color:#888; grid-column:1/-1;">
+                        Пока нет отзывов. Станьте первым!
+                    </p>
+                {% endif %}
+            </div>
         </div>
     </section>
 
@@ -322,18 +483,115 @@
         </div>
     </footer>
 
+    <!-- МОДАЛЬНОЕ ОКНО С РАСПИСАНИЕМ -->
+    <div id="slots-modal" class="modal-overlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3 style="margin:0; font-size:1.25rem; color:var(--primary);">Расписание слотов</h3>
+                <button type="button" id="close-schedule-btn" class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin:0 0 16px; color:#555;">
+                    Ниже — все возможные слоты с 09:00 до 19:00 (шаг 30 минут). 
+                    Серым/красным отмечены занятые.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding:10px; text-align:left; border:1px solid var(--border);">Время</th>
+                            <th style="padding:10px; text-align:center; border:1px solid var(--border);">Статус</th>
+                        </tr>
+                    </thead>
+                    <tbody id="slots-body">
+                        <!-- Сюда JS подставит строки -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- СКРИПТ: открытие модального окна и отрисовка таблицы -->
     <script>
-        document.querySelectorAll('.js-toggle').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = btn.getAttribute('href');
-                document.querySelectorAll('section:not(.hero-section)').forEach(sec => {
-                    sec.classList.remove('active');
+        document.addEventListener('DOMContentLoaded', () => {
+            const openBtn = document.getElementById('open-schedule-btn');
+            const closeBtn = document.getElementById('close-schedule-btn');
+            const modal = document.getElementById('slots-modal');
+            const slotsBody = document.getElementById('slots-body');
+
+            if (!openBtn || !closeBtn || !modal || !slotsBody) {
+                console.error('Не найдены элементы модального окна расписания');
+                return;
+            }
+
+            // Генерируем все возможные слоты: 09:00…19:00 с шагом 30 минут
+            const allSlots = [];
+            for (let h = 9; h < 20; h++) {
+                for (let m of [0, 30]) {
+                    if (h === 19 && m === 30) continue;
+                    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+                    allSlots.push(timeStr);
+                }
+            }
+
+            // Получаем список забронированных слотов из шаблона (уже как валидный JSON)
+            let bookedSlots = [];
+            try {
+                bookedSlots = JSON.parse('{{ booked_slots_json|safe }}');
+                console.log('Загружено забронированных слотов:', bookedSlots.length);
+            } catch (e) {
+                console.error('Ошибка парсинга booked_slots_json:', e);
+                bookedSlots = [];
+            }
+
+            function renderSlots() {
+                // Берём сегодняшнюю дату для сравнения
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+                allSlots.forEach(timeStr => {
+                    const combined = `${today} ${timeStr}`;
+                    const isBooked = bookedSlots.some(b => b.startsWith(combined));
+
+                    const tr = document.createElement('tr');
+                    tr.style.borderBottom = '1px solid #eee';
+
+                    const tdTime = document.createElement('td');
+                    tdTime.textContent = timeStr;
+                    tdTime.style.padding = '10px';
+                    tdTime.style.borderRight = '1px solid var(--border)';
+
+                    const tdStatus = document.createElement('td');
+                    tdStatus.style.padding = '10px';
+                    tdStatus.style.textAlign = 'center';
+
+                    if (isBooked) {
+                        tdStatus.textContent = '❌ Занято';
+                        tdStatus.className = 'status-busy';
+                    } else {
+                        tdStatus.textContent = '✅ Свободно';
+                        tdStatus.className = 'status-free';
+                    }
+
+                    tr.appendChild(tdTime);
+                    tr.appendChild(tdStatus);
+                    slotsBody.appendChild(tr);
                 });
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            openBtn.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                if (!slotsBody.innerHTML) {
+                    renderSlots();
+                }
+            });
+
+            closeBtn.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            // Закрыть по клику вне окна
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
                 }
             });
         });

@@ -10,6 +10,7 @@ class Booking(models.Model):
     def __str__(self):
         return f"{self.name} — {self.service} в {self.date_time}"
     
+
 class Service(models.Model):
     name = models.CharField("Название услуги", max_length=200)
     price = models.DecimalField("Цена", max_digits=8, decimal_places=2)
@@ -20,11 +21,21 @@ class Service(models.Model):
 
 
 class WorkExample(models.Model):
+    image = models.ImageField("Фото работы", upload_to="work_examples/", blank=True, null=True)
     image_url = models.URLField("Ссылка на фото")
     caption = models.CharField("Подпись", max_length=250)
 
     def __str__(self):
         return self.caption
+
+
+class Review(models.Model):
+    name = models.CharField("Имя клиента", max_length=100)
+    text = models.TextField("Отзыв")
+    created_at = models.DateTimeField("Дата", auto_now_add=True)
+
+    def __str__(self):
+        return f"Отзыв от {self.name}"
 
 
 class ContactInfo(models.Model):
