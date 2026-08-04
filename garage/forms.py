@@ -3,7 +3,6 @@ from django.core.exceptions import ValidationError
 from datetime import time, datetime, date
 from .models import Booking, Review
 
-# Генерация слотов: 09:00, 09:30, ..., 18:30 (без 19:30)
 TIME_SLOTS = []
 for h in range(9, 20):
     for m in [0, 30]:
@@ -27,7 +26,7 @@ class BookingForm(forms.ModelForm):
 
     class Meta:
         model = Booking
-        # ВАЖНО: сюда добавляем только те поля, которые реально есть в модели Booking
+
         fields = ['name', 'phone', 'service']
         labels = {
             'name': 'Ваше имя',
@@ -46,7 +45,6 @@ class BookingForm(forms.ModelForm):
         date_val = cleaned_data.get('date')
         time_str = cleaned_data.get('time_slot')
 
-        # Если одно из полей невалидно, дальше не проверяем
         if not date_val or not time_str:
             return cleaned_data
 
@@ -54,12 +52,10 @@ class BookingForm(forms.ModelForm):
         time_val = time(h, m)
         combined_dt = datetime.combine(date_val, time_val)
 
-        # Проверка на дубликат: ищем уже существующую запись на это точное время
         existing_bookings = Booking.objects.filter(date_time=combined_dt)
         if existing_bookings.exists():
             self.add_error('time_slot', 'Это время уже занято. Пожалуйста, выберите другой слот.')
 
-        # Сохраняем собранное datetime во временный атрибут, чтобы потом использовать в save()
         self.cleaned_datetime = combined_dt
         return cleaned_data
 
