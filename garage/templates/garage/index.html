@@ -6,6 +6,7 @@
     <title>Шиномонтаж «Эконом»</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<<<<<<< Updated upstream
     <style>
         :root {
             --primary: #d32f2f;
@@ -276,6 +277,21 @@
                 <a href="#works" class="btn-nav">Примеры работ</a>
                 <a href="#booking" class="btn-nav">Записаться</a>
                 <a href="#reviews" class="btn-nav" style="background:var(--primary); color:#fff;">🗣 Отзывы</a>
+=======
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container header-row">
+            <a href="#" class="brand" onclick="return false;">
+                <span class="brand-mark">Ш</span>
+                <span class="brand-text">Шиномонтаж «Эконом»</span>
+            </a>
+            <nav class="top-nav" aria-label="Основная навигация">
+                <button type="button" class="tab-btn" data-target="services" onclick="showSection('services')">Услуги</button>
+                <button type="button" class="tab-btn" data-target="booking" onclick="showSection('booking')">Записаться</button>
+                <button type="button" class="tab-btn" data-target="reviews" onclick="showSection('reviews')">Отзывы</button>
+>>>>>>> Stashed changes
             </nav>
         </div>
     </header>
@@ -284,33 +300,55 @@
     <section class="hero-section">
         <div class="container hero">
             <div class="hero-info">
-                <h1 style="color:var(--primary)">Профессиональный шиномонтаж</h1>
-                <p>Быстро, надёжно, с гарантией. Работаем без выходных.</p>
+                <h1 class="hero-title">Профессиональный шиномонтаж</h1>
+                <p class="hero-subtitle">Быстро, надёжно, с гарантией. Работаем без выходных.</p>
 
+<<<<<<< Updated upstream
                 <!-- Кнопка расписания -->
                 <button type="button" id="open-schedule-btn" class="btn-schedule">
                     📅 Посмотреть расписание: какие слоты заняты
                 </button>
+=======
+                <div class="hero-actions">
+                    <button type="button" class="btn-primary" onclick="showSection('booking')">
+                        📅 Записаться онлайн
+                    </button>
+                    <button type="button" id="open-schedule-btn" class="btn-outline">
+                        Занятые слоты
+                    </button>
+                </div>
+>>>>>>> Stashed changes
 
-                <div class="contacts-block" style="margin-top:24px;">
+                <div class="contacts-block">
                     {% if contact %}
-                        <div class="contact-item">📍 {{ contact.address }}</div>
-                        <div class="contact-item">📞 {{ contact.phone }}</div>
+                        <div class="contact-item"><span class="contact-icon">📍</span><span>{{ contact.address }}</span></div>
+                        <div class="contact-item"><span class="contact-icon">📞</span><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></div>
                         {% if contact.email %}
-                            <div class="contact-item">✉️ {{ contact.email }}</div>
+                            <div class="contact-item"><span class="contact-icon">✉️</span><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></div>
                         {% endif %}
-                        <div class="contact-item">⏰ {{ contact.working_hours }}</div>
+                        <div class="contact-item"><span class="contact-icon">⏰</span><span>{{ contact.working_hours }}</span></div>
                     {% else %}
-                        <p style="color:#888">Заполните контакты в админке.</p>
+                        <p class="muted">Заполните контакты в админке.</p>
                     {% endif %}
                 </div>
             </div>
 
-            <div class="map-block">
-                {% if contact and contact.map_iframe_url %}
-                    {{ contact.map_iframe_url|safe }}
+            <!-- Карта в правом верхнем углу hero -->
+            <div class="map-block" aria-label="Карта проезда">
+                {% if contact and contact.map_url %}
+                    <iframe
+                        src="{{ contact.map_url }}"
+                        allowfullscreen=""
+                        loading="lazy"
+                        title="Карта проезда"
+                    ></iframe>
                 {% else %}
-                    <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A221a76d2fd650a12d87390ffd2acf934652d7d8d2c487967f8dd1001a3fe1dff&amp;source=constructor" allowfullscreen="" loading="lazy" style="border:none;"></iframe>
+                    <iframe
+                        src="https://yandex.ru/map-widget/v1/?um=constructor%3A221a76d2fd650a12d87390ffd2acf934652d7d8d2c487967f8dd1001a3fe1dff&source=constructor"
+                        allowfullscreen=""
+                        loading="lazy"
+                        title="Карта проезда"
+                    ></iframe>
                 {% endif %}
             </div>
         </div>
@@ -319,23 +357,24 @@
     <!-- УСЛУГИ -->
     <section id="services">
         <div class="container">
-            <h2>Наши услуги и цены</h2>
+            <h2 class="section-title">Наши услуги и цены</h2>
             <div class="services-grid">
                 {% for service in services %}
                     <div class="card">
-                        <h3>{{ service.name }}</h3>
+                        <h3 class="card-title">{{ service.name }}</h3>
                         <p class="price">{{ service.price }} ₽</p>
                         {% if service.description %}
-                            <p>{{ service.description }}</p>
+                            <p class="card-desc">{{ service.description }}</p>
                         {% endif %}
                     </div>
                 {% empty %}
-                    <p>Добавьте услуги в админке.</p>
+                    <p class="empty-note">Добавьте услуги в админке.</p>
                 {% endfor %}
             </div>
         </div>
     </section>
 
+<<<<<<< Updated upstream
     <!-- ПРИМЕРЫ РАБОТ -->
     <section id="works">
         <div class="container">
@@ -404,54 +443,101 @@
 
                 <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить заявку</button>
             </form>
+=======
+    <section id="booking" class="page-section">
+        <div class="container">
+            <h2 class="section-title">Записаться на шиномонтаж</h2>
 
-            {% if messages %}
-              {% for message in messages %}
-                <div style="padding:16px; background:#d4edda; color:#155724; border-radius:8px; margin-top:16px; text-align:center;">
-                  {{ message }}
-                </div>
-              {% endfor %}
-            {% endif %}
+            <div class="booking-form">
+                <div id="booking-message" class="message-block"></div>
+
+                <form id="booking-form" method="post" action="{% url 'booking_ajax' %}" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="booking_submit" value="1">
+
+                    <div class="form-field">
+                        <label for="{{ form.name.id_for_label }}">Ваше имя</label>
+                        {{ form.name }}
+                        {% for e in form.name.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.phone.id_for_label }}">Телефон</label>
+                        {{ form.phone }}
+                        {% for e in form.phone.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.service.id_for_label }}">Услуга</label>
+                        {{ form.service }}
+                        {% for e in form.service.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.date.id_for_label }}">Дата записи</label>
+                        {{ form.date }}
+                        {% for e in form.date.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+                    </div>
+                    <div class="form-field">
+                        <label for="{{ form.time_slot.id_for_label }}">Время записи</label>
+                        {{ form.time_slot }}
+                        {% for e in form.time_slot.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
+                    </div>
+>>>>>>> Stashed changes
+
+                    <button type="submit" class="btn-primary btn-block">Отправить заявку</button>
+                </form>
+
+                {% if messages %}
+                  {% for message in messages %}
+                    <div class="flash flash-{{ message.tags }}">{{ message }}</div>
+                  {% endfor %}
+                {% endif %}
+            </div>
         </div>
     </section>
 
     <!-- ОТЗЫВЫ -->
     <section id="reviews">
         <div class="container">
-            <h2>Отзывы наших клиентов</h2>
+            <h2 class="section-title">Отзывы наших клиентов</h2>
 
             <div class="review-form-block">
-                <h3 style="margin-top:0; color:var(--primary);">Оставить отзыв</h3>
+                <h3 class="section-subtitle">Оставить отзыв</h3>
+
                 {% if review_form.errors %}
-                    <div style="padding:12px; background:#f8d7da; color:#721c24; border-radius:6px; margin-bottom:16px;">
+                    <div class="form-errors-box">
                         Исправьте ошибки в форме:
-                        {{ review_form.errors }}
+                        <ul>
+                        {% for field, errs in review_form.errors.items %}
+                            {% for e in errs %}<li>{{ e }}</li>{% endfor %}
+                        {% endfor %}
+                        </ul>
                     </div>
                 {% endif %}
 
+<<<<<<< Updated upstream
                 <form method="post">
+=======
+                <form method="post" novalidate>
+>>>>>>> Stashed changes
                     {% csrf_token %}
                     <input type="hidden" name="review_submit" value="1">
-                    
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Ваше имя</label>
+
+                    <div class="form-field">
+                        <label for="{{ review_form.name.id_for_label }}">Ваше имя</label>
                         {{ review_form.name }}
+                        {% for e in review_form.name.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
                     </div>
-                    <div style="margin-bottom: 15px;">
-                        <label style="display:block; margin-bottom:5px; font-weight:bold;">Отзыв</label>
+                    <div class="form-field">
+                        <label for="{{ review_form.text.id_for_label }}">Отзыв</label>
                         {{ review_form.text }}
+                        {% for e in review_form.text.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
                     </div>
 
+<<<<<<< Updated upstream
                     <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить отзыв</button>
+=======
+                    <button type="submit" class="btn-primary btn-block">Отправить отзыв</button>
+>>>>>>> Stashed changes
                 </form>
-
-                {% if messages %}
-                    {% for message in messages %}
-                        <div style="padding:12px; background:#d4edda; color:#155724; border-radius:6px; margin-top:16px; text-align:center;">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
             </div>
 
             <div class="reviews-list">
@@ -460,29 +546,26 @@
                         <div class="review-card">
                             <span class="review-author">{{ review.name }}</span>
                             <p class="review-text">{{ review.text }}</p>
-                            <small style="color:#999; font-size:0.85rem;">
-                                {{ review.created_at|date:"d.m.Y H:i" }}
-                            </small>
+                            <small class="review-date">{{ review.created_at|date:"d.m.Y H:i" }}</small>
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p style="text-align:center; padding:40px; color:#888; grid-column:1/-1;">
-                        Пока нет отзывов. Станьте первым!
-                    </p>
+                    <p class="empty-note">Пока нет отзывов. Станьте первым!</p>
                 {% endif %}
             </div>
         </div>
     </section>
 
-    <footer>
+    <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 Шиномонтаж «Эконом». Все права защищены.</p>
+            <p>© 2026 Шиномонтаж «Эконом». Все права защищены.</p>
             {% if contact and contact.working_hours %}
-                <p style="font-size:0.9rem; margin-top:8px;">Работаем ежедневно: {{ contact.working_hours }}</p>
+                <p class="footer-hours">Работаем ежедневно: {{ contact.working_hours }}</p>
             {% endif %}
         </div>
     </footer>
 
+<<<<<<< Updated upstream
     <!-- МОДАЛЬНОЕ ОКНО С РАСПИСАНИЕМ -->
     <div id="slots-modal" class="modal-overlay">
         <div class="modal-window">
@@ -505,19 +588,67 @@
                     <tbody id="slots-body">
                         <!-- Сюда JS подставит строки -->
                     </tbody>
+=======
+    <div id="slots-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="slots-title">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3 id="slots-title" class="modal-title">Занятые слоты</h3>
+                <button type="button" id="close-schedule-btn" class="close-modal" aria-label="Закрыть">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-hint">Показаны только дата и время занятых слотов.</p>
+                <table>
+                    <thead>
+                        <tr><th scope="col">Дата и время</th></tr>
+                    </thead>
+                    <tbody id="bookings-body"></tbody>
+>>>>>>> Stashed changes
                 </table>
             </div>
         </div>
     </div>
 
+<<<<<<< Updated upstream
     <!-- СКРИПТ: открытие модального окна и отрисовка таблицы -->
     <script>
+=======
+    {{ bookings_json|json_script:"bookings-data" }}
+
+    <script>
+        function showSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            if (!target) return;
+
+            const isAlreadyOpen = target.classList.contains('active');
+
+            // Закрываем все секции и снимаем активность кнопок
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            // Если секция уже была открыта — просто закрываем (повторное нажатие)
+            if (isAlreadyOpen) {
+                return;
+            }
+
+            target.classList.add('active');
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                if (btn.dataset.target === sectionId) {
+                    btn.classList.add('active');
+                }
+            });
+
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+>>>>>>> Stashed changes
         document.addEventListener('DOMContentLoaded', () => {
             const openBtn = document.getElementById('open-schedule-btn');
             const closeBtn = document.getElementById('close-schedule-btn');
             const modal = document.getElementById('slots-modal');
             const slotsBody = document.getElementById('slots-body');
 
+<<<<<<< Updated upstream
             if (!openBtn || !closeBtn || !modal || !slotsBody) {
                 console.error('Не найдены элементы модального окна расписания');
                 return;
@@ -594,6 +725,98 @@
                     modal.style.display = 'none';
                 }
             });
+=======
+            if (openBtn && closeBtn && modal && tbody) {
+                let bookingsData = [];
+                const dataEl = document.getElementById('bookings-data');
+                if (dataEl) {
+                    try {
+                        bookingsData = JSON.parse(dataEl.textContent);
+                    } catch (e) {
+                        console.error('Ошибка парсинга bookings_json:', e);
+                        bookingsData = [];
+                    }
+                }
+
+                function renderBookings() {
+                    tbody.innerHTML = '';
+                    if (!bookingsData.length) {
+                        const tr = document.createElement('tr');
+                        const td = document.createElement('td');
+                        td.colSpan = 1;
+                        td.textContent = 'Занятых слотов пока нет.';
+                        td.className = 'empty-cell';
+                        tr.appendChild(td);
+                        tbody.appendChild(tr);
+                        return;
+                    }
+                    bookingsData.forEach(b => {
+                        const tr = document.createElement('tr');
+                        const td = document.createElement('td');
+                        td.textContent = b.date_time;
+                        tr.appendChild(td);
+                        tbody.appendChild(tr);
+                    });
+                }
+
+                openBtn.addEventListener('click', () => {
+                    modal.style.display = 'flex';
+                    renderBookings();
+                });
+                closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.style.display = 'none';
+                });
+            }
+
+            const form = document.getElementById('booking-form');
+            const messageBlock = document.getElementById('booking-message');
+
+            if (form && messageBlock) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    const url = form.action;
+
+                    messageBlock.style.display = 'none';
+                    messageBlock.textContent = '';
+                    messageBlock.className = 'message-block';
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            body: formData,
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        });
+                        const data = await response.json();
+
+                        if (response.ok && data.status === 'success') {
+                            messageBlock.style.display = 'block';
+                            messageBlock.classList.add('message-success');
+                            messageBlock.textContent = data.message;
+                            form.reset();
+                        } else {
+                            messageBlock.style.display = 'block';
+                            messageBlock.classList.add('message-error');
+                            if (data.errors) {
+                                let errorText = 'Ошибка:\n';
+                                for (const field in data.errors) {
+                                    data.errors[field].forEach(err => { errorText += '- ' + err.message + '\n'; });
+                                }
+                                messageBlock.textContent = errorText;
+                            } else {
+                                messageBlock.textContent = 'Произошла ошибка при отправке. Попробуйте позже.';
+                            }
+                        }
+                    } catch (err) {
+                        console.error(err);
+                        messageBlock.style.display = 'block';
+                        messageBlock.classList.add('message-error');
+                        messageBlock.textContent = 'Ошибка сети или сервера.';
+                    }
+                });
+            }
+>>>>>>> Stashed changes
         });
     </script>
 </body>
