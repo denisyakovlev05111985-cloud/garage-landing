@@ -6,278 +6,6 @@
     <title>Шиномонтаж «Эконом»</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-<<<<<<< Updated upstream
-    <style>
-        :root {
-            --primary: #d32f2f;
-            --primary-hover: #b71c1c;
-            --text: #333333;
-            --card-bg: #ffffff;
-            --border: #e0e0e0;
-            --red-overlay: rgba(211, 47, 47, 0.06);
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            background: linear-gradient(180deg, #f5f6f8 0%, #e9ecf1 40%, #dbe0e8 100%);
-        }
-
-        header {
-            padding-top: 24px;
-            padding-left: 20px;
-            padding-right: 20px;
-            border-bottom: 3px solid var(--primary);
-            background: #fff;
-            z-index: 10;
-            position: relative;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-            position: sticky;
-            top: 0;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 0 20px;
-        }
-
-        .brand {
-            font-weight: bold;
-            font-size: 1.8rem;
-            color: var(--primary);
-            text-decoration: none;
-            line-height: 1;
-        }
-
-        .top-nav {
-            display: flex;
-            gap: 12px;
-            margin-left: 32px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .btn-nav {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 12px 20px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.2s;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .btn-nav:hover, .btn-nav.active {
-            background: var(--primary);
-            color: #fff;
-        }
-
-        /* Кнопка расписания */
-        .btn-schedule {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 18px 32px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            max-width: 360px;
-            box-shadow: 0 6px 18px rgba(211, 47, 47, 0.25);
-            transition: transform 0.1s, box-shadow 0.2s;
-        }
-        .btn-schedule:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(211, 47, 47, 0.3);
-        }
-        .btn-schedule:active {
-            transform: translateY(0);
-        }
-
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-items: start;
-            padding: 50px 0;
-        }
-        @media (max-width: 768px) {
-            .hero { grid-template-columns: 1fr; }
-        }
-
-        .contacts-block, .card, .booking-form, .review-card {
-            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-            border-radius: 12px;
-            border: 1px solid rgba(221, 221, 221, 0.4);
-            background: var(--card-bg);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .contacts-block::before, .card::before, .booking-form::before, .review-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: var(--red-overlay);
-            pointer-events: none;
-            z-index: 1;
-            border-radius: 12px;
-        }
-
-        .contacts-block { padding: 28px; z-index: 2; }
-        .contact-item {
-            margin-bottom: 14px;
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            line-height: 1.4;
-            position: relative;
-            z-index: 2;
-        }
-
-        .map-block {
-            grid-column: 2;
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid var(--border);
-        }
-        .map-block iframe { width: 100%; height: 100%; border: 0; display: block; }
-
-        section { padding: 60px 0; }
-        h2 {
-            margin: 0 0 35px;
-            text-align: center;
-            color: var(--primary);
-            font-size: 2rem;
-        }
-
-        .services-grid, .works-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 22px;
-        }
-        .card { padding: 24px; z-index: 2; }
-        .price { color: var(--primary); font-weight: bold; font-size: 1.1rem; }
-
-        .booking-form, .reviews-section .review-form-block {
-            max-width: 520px;
-            margin: 0 auto;
-            padding: 36px;
-            z-index: 2;
-        }
-        
-        input, textarea, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 14px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: #888;
-            border-top: 1px solid var(--border);
-            background: #fff;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        /* Модальное окно */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.55);
-            z-index: 9999; /* Очень высокий z-index */
-            display: none;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        .modal-window {
-            background: #fff;
-            border-radius: 14px;
-            width: 100%;
-            max-width: 640px;
-            box-shadow: 0 12px 48px rgba(0,0,0,0.18);
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-        .modal-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .modal-body {
-            padding: 24px;
-        }
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-        }
-        .close-modal:hover { color: #333; }
-
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { background-color: #f8f9fa; color: var(--primary); }
-        .status-busy { color: #d32f2f; font-weight: bold; }
-        .status-free { color: #2e7d32; font-weight: bold; }
-
-        .reviews-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .review-card {
-            padding: 20px;
-            text-align: center;
-        }
-        .review-author {
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 8px;
-            display: block;
-        }
-        .review-text {
-            color: #555;
-            font-style: italic;
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="container" style="display:flex; align-items:center;">
-            <a href="#services" class="brand">Шиномонтаж «Эконом»</a>
-            <nav class="top-nav">
-                <a href="#services" class="btn-nav">Услуги</a>
-                <a href="#works" class="btn-nav">Примеры работ</a>
-                <a href="#booking" class="btn-nav">Записаться</a>
-                <a href="#reviews" class="btn-nav" style="background:var(--primary); color:#fff;">🗣 Отзывы</a>
-=======
 </head>
 <body>
 
@@ -291,24 +19,16 @@
                 <button type="button" class="tab-btn" data-target="services" onclick="showSection('services')">Услуги</button>
                 <button type="button" class="tab-btn" data-target="booking" onclick="showSection('booking')">Записаться</button>
                 <button type="button" class="tab-btn" data-target="reviews" onclick="showSection('reviews')">Отзывы</button>
->>>>>>> Stashed changes
             </nav>
         </div>
     </header>
 
-    <!-- ГЛАВНЫЙ ЭКРАН -->
     <section class="hero-section">
         <div class="container hero">
             <div class="hero-info">
                 <h1 class="hero-title">Профессиональный шиномонтаж</h1>
                 <p class="hero-subtitle">Быстро, надёжно, с гарантией. Работаем без выходных.</p>
 
-<<<<<<< Updated upstream
-                <!-- Кнопка расписания -->
-                <button type="button" id="open-schedule-btn" class="btn-schedule">
-                    📅 Посмотреть расписание: какие слоты заняты
-                </button>
-=======
                 <div class="hero-actions">
                     <button type="button" class="btn-primary" onclick="showSection('booking')">
                         📅 Записаться онлайн
@@ -317,7 +37,6 @@
                         Занятые слоты
                     </button>
                 </div>
->>>>>>> Stashed changes
 
                 <div class="contacts-block">
                     {% if contact %}
@@ -354,8 +73,7 @@
         </div>
     </section>
 
-    <!-- УСЛУГИ -->
-    <section id="services">
+    <section id="services" class="page-section">
         <div class="container">
             <h2 class="section-title">Наши услуги и цены</h2>
             <div class="services-grid">
@@ -374,76 +92,6 @@
         </div>
     </section>
 
-<<<<<<< Updated upstream
-    <!-- ПРИМЕРЫ РАБОТ -->
-    <section id="works">
-        <div class="container">
-            <h2>Примеры работ</h2>
-            <div class="works-grid">
-                {% for example in examples %}
-                    <div class="card" style="text-align:center;">
-                        {% if example.image %}
-                            <img src="{{ example.image.url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
-                        {% elif example.image_url %}
-                            <img src="{{ example.image_url }}" alt="{{ example.caption }}" style
-                            <img src="{{ example.image_url }}" alt="{{ example.caption }}" style="width:100%; border-radius:8px; margin-bottom:14px;">
-                        {% else %}
-                            <div style="height:200px; background:#eee; border-radius:8px; display:flex; align-items:center; justify-content:center; color:#888;">Нет фото</div>
-                        {% endif %}
-                        <p>{{ example.caption }}</p>
-                    </div>
-                {% empty %}
-                    {% for i in "123456" %}
-                        <div class="card" style="text-align:center;">
-                            <img src="https://picsum.photos/400/300?random={{ i }}" alt="Пример работы" style="width:100%; border-radius:8px; margin-bottom:14px;">
-                            <p>Пример работы</p>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-
-    <!-- ФОРМА ЗАПИСИ -->
-    <section id="booking">
-        <div class="container booking-form">
-            <h2 style="margin:0 0 24px; text-align:center; color:var(--primary);">Записаться на шиномонтаж</h2>
-
-            {% if form.errors %}
-              <div style="padding:16px; background:#f8d7da; color:#721c24; border-radius:8px; margin-bottom:16px;">
-                Пожалуйста, исправьте ошибки в форме:
-                {{ form.errors }}
-              </div>
-            {% endif %}
-
-            <form method="post">
-                {% csrf_token %}
-                <input type="hidden" name="booking_submit" value="1">
-                
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Ваше имя</label>
-                    {{ form.name }}
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Телефон</label>
-                    {{ form.phone }}
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Услуга (впишите название)</label>
-                    {{ form.service }}
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Дата записи</label>
-                    {{ form.date }}
-                </div>
-                <div style="margin-bottom: 15px;">
-                    <label style="display:block; margin-bottom:5px; font-weight:bold;">Время записи</label>
-                    {{ form.time_slot }}
-                </div>
-
-                <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить заявку</button>
-            </form>
-=======
     <section id="booking" class="page-section">
         <div class="container">
             <h2 class="section-title">Записаться на шиномонтаж</h2>
@@ -480,7 +128,6 @@
                         {{ form.time_slot }}
                         {% for e in form.time_slot.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
                     </div>
->>>>>>> Stashed changes
 
                     <button type="submit" class="btn-primary btn-block">Отправить заявку</button>
                 </form>
@@ -494,8 +141,7 @@
         </div>
     </section>
 
-    <!-- ОТЗЫВЫ -->
-    <section id="reviews">
+    <section id="reviews" class="page-section">
         <div class="container">
             <h2 class="section-title">Отзывы наших клиентов</h2>
 
@@ -513,11 +159,7 @@
                     </div>
                 {% endif %}
 
-<<<<<<< Updated upstream
-                <form method="post">
-=======
                 <form method="post" novalidate>
->>>>>>> Stashed changes
                     {% csrf_token %}
                     <input type="hidden" name="review_submit" value="1">
 
@@ -532,11 +174,7 @@
                         {% for e in review_form.text.errors %}<div class="field-error">{{ e }}</div>{% endfor %}
                     </div>
 
-<<<<<<< Updated upstream
-                    <button type="submit" class="btn-nav" style="width:100%; background:var(--primary); color:#fff; border:none;">Отправить отзыв</button>
-=======
                     <button type="submit" class="btn-primary btn-block">Отправить отзыв</button>
->>>>>>> Stashed changes
                 </form>
             </div>
 
@@ -565,30 +203,6 @@
         </div>
     </footer>
 
-<<<<<<< Updated upstream
-    <!-- МОДАЛЬНОЕ ОКНО С РАСПИСАНИЕМ -->
-    <div id="slots-modal" class="modal-overlay">
-        <div class="modal-window">
-            <div class="modal-header">
-                <h3 style="margin:0; font-size:1.25rem; color:var(--primary);">Расписание слотов</h3>
-                <button type="button" id="close-schedule-btn" class="close-modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p style="margin:0 0 16px; color:#555;">
-                    Ниже — все возможные слоты с 09:00 до 19:00 (шаг 30 минут). 
-                    Серым/красным отмечены занятые.
-                </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="padding:10px; text-align:left; border:1px solid var(--border);">Время</th>
-                            <th style="padding:10px; text-align:center; border:1px solid var(--border);">Статус</th>
-                        </tr>
-                    </thead>
-                    <tbody id="slots-body">
-                        <!-- Сюда JS подставит строки -->
-                    </tbody>
-=======
     <div id="slots-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="slots-title">
         <div class="modal-window">
             <div class="modal-header">
@@ -602,16 +216,11 @@
                         <tr><th scope="col">Дата и время</th></tr>
                     </thead>
                     <tbody id="bookings-body"></tbody>
->>>>>>> Stashed changes
                 </table>
             </div>
         </div>
     </div>
 
-<<<<<<< Updated upstream
-    <!-- СКРИПТ: открытие модального окна и отрисовка таблицы -->
-    <script>
-=======
     {{ bookings_json|json_script:"bookings-data" }}
 
     <script>
@@ -641,91 +250,12 @@
             target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
->>>>>>> Stashed changes
         document.addEventListener('DOMContentLoaded', () => {
             const openBtn = document.getElementById('open-schedule-btn');
             const closeBtn = document.getElementById('close-schedule-btn');
             const modal = document.getElementById('slots-modal');
-            const slotsBody = document.getElementById('slots-body');
+            const tbody = document.getElementById('bookings-body');
 
-<<<<<<< Updated upstream
-            if (!openBtn || !closeBtn || !modal || !slotsBody) {
-                console.error('Не найдены элементы модального окна расписания');
-                return;
-            }
-
-            // Генерируем все возможные слоты: 09:00…19:00 с шагом 30 минут
-            const allSlots = [];
-            for (let h = 9; h < 20; h++) {
-                for (let m of [0, 30]) {
-                    if (h === 19 && m === 30) continue;
-                    const timeStr = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
-                    allSlots.push(timeStr);
-                }
-            }
-
-            // Получаем список забронированных слотов из шаблона (уже как валидный JSON)
-            let bookedSlots = [];
-            try {
-                bookedSlots = JSON.parse('{{ booked_slots_json|safe }}');
-                console.log('Загружено забронированных слотов:', bookedSlots.length);
-            } catch (e) {
-                console.error('Ошибка парсинга booked_slots_json:', e);
-                bookedSlots = [];
-            }
-
-            function renderSlots() {
-                // Берём сегодняшнюю дату для сравнения
-                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-
-                allSlots.forEach(timeStr => {
-                    const combined = `${today} ${timeStr}`;
-                    const isBooked = bookedSlots.some(b => b.startsWith(combined));
-
-                    const tr = document.createElement('tr');
-                    tr.style.borderBottom = '1px solid #eee';
-
-                    const tdTime = document.createElement('td');
-                    tdTime.textContent = timeStr;
-                    tdTime.style.padding = '10px';
-                    tdTime.style.borderRight = '1px solid var(--border)';
-
-                    const tdStatus = document.createElement('td');
-                    tdStatus.style.padding = '10px';
-                    tdStatus.style.textAlign = 'center';
-
-                    if (isBooked) {
-                        tdStatus.textContent = '❌ Занято';
-                        tdStatus.className = 'status-busy';
-                    } else {
-                        tdStatus.textContent = '✅ Свободно';
-                        tdStatus.className = 'status-free';
-                    }
-
-                    tr.appendChild(tdTime);
-                    tr.appendChild(tdStatus);
-                    slotsBody.appendChild(tr);
-                });
-            }
-
-            openBtn.addEventListener('click', () => {
-                modal.style.display = 'flex';
-                if (!slotsBody.innerHTML) {
-                    renderSlots();
-                }
-            });
-
-            closeBtn.addEventListener('click', () => {
-                modal.style.display = 'none';
-            });
-
-            // Закрыть по клику вне окна
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-=======
             if (openBtn && closeBtn && modal && tbody) {
                 let bookingsData = [];
                 const dataEl = document.getElementById('bookings-data');
@@ -816,7 +346,6 @@
                     }
                 });
             }
->>>>>>> Stashed changes
         });
     </script>
 </body>
