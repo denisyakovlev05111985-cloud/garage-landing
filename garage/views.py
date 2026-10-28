@@ -2,14 +2,11 @@ import json
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
-<<<<<<< Updated upstream
-=======
 from django.http import JsonResponse
 from django.db import IntegrityError
 from django.utils import timezone
 from django.views.decorators.http import require_POST
 
->>>>>>> Stashed changes
 from .models import Service, WorkExample, ContactInfo, Booking, Review
 from .forms import BookingForm, ReviewForm
 
@@ -20,12 +17,6 @@ def index(request):
     contact = ContactInfo.load()
     reviews = Review.objects.filter(is_published=True).order_by('-created_at')[:10]
 
-<<<<<<< Updated upstream
-    # Самый безопасный способ: сразу в JSON, без лишних замен в JS
-    booked_slots = [
-        dt.strftime('%Y-%m-%d %H:%M')
-        for dt in Booking.objects.values_list('date_time', flat=True)
-=======
     now = timezone.now()
     bookings_list = Booking.objects.filter(date_time__gte=now).order_by('date_time')
 
@@ -42,18 +33,14 @@ def index(request):
     booked_slots = [
         timezone.localtime(dt).strftime('%Y-%m-%d %H:%M')
         for dt in bookings_list.values_list('date_time', flat=True)
->>>>>>> Stashed changes
     ]
-    booked_slots_json = json.dumps(booked_slots)  # Это будет валидный JSON-массив
+    booked_slots_json = json.dumps(booked_slots)
 
     form = BookingForm()
     review_form = ReviewForm()
 
     if request.method == "POST":
-<<<<<<< Updated upstream
-=======
         # Обычная отправка (если JS отключён)
->>>>>>> Stashed changes
         if 'booking_submit' in request.POST:
             form = BookingForm(request.POST)
             if form.is_valid():
@@ -65,7 +52,8 @@ def index(request):
                     form.add_error('time_slot', 'Это время только что заняли. Выберите другое.')
                     messages.error(request, "Это время только что заняли. Выберите другое.")
             else:
-                messages.error(request, "Ошибка в форме бронирования.")
+                messages.error(request, "Ошибка в форме бронирования. Проверьте поля.")
+
         elif 'review_submit' in request.POST:
             review_form = ReviewForm(request.POST)
             if review_form.is_valid():
@@ -73,7 +61,6 @@ def index(request):
                 messages.success(request, "Спасибо за отзыв! Он появится после модерации.")
                 return redirect('index')
             else:
-                # ← сообщение об ошибке формы отзыва
                 messages.error(request, "Исправьте ошибки в форме отзыва.")
 
     return render(request, "garage/index.html", {
@@ -83,10 +70,9 @@ def index(request):
         "reviews": reviews,
         "form": form,
         "review_form": review_form,
-        "booked_slots_json": booked_slots_json,  # Передаём уже готовый JSON
+        "booked_slots_json": booked_slots_json,
+        "bookings_json": bookings_json,
     })
-<<<<<<< Updated upstream
-=======
 
 
 @require_POST
@@ -116,4 +102,3 @@ def booking_ajax(request):
         "status": "error",
         "errors": errors
     }, status=400)
->>>>>>> Stashed changes
